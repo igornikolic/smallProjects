@@ -77,6 +77,7 @@ void setup()
 
 
   //MQTT setup
+  snprintf(esp_id, sizeof(esp_id), "%08x", ESP.getChipId());
   mqttClient.setServer(MQTT_HOST, MQTT_PORT);
   mqttClient.setCallback(callback);
 
@@ -201,7 +202,7 @@ void reconnect() {
   while (!mqttClient.connected()) {
     Serial.print("Attempting MQTT connection...");
     // Attempt to connect
-    if (mqttClient.connect("GridBallanceLamp")) {
+    if (mqttClient.connect(esp_id)) {
       Serial.println("connected");
       // ... and resubscribe
       mqttClient.subscribe(MQTT_TOPIC);
